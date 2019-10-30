@@ -1,0 +1,41 @@
+package service;
+
+import java.net.*;
+import java.io.*;
+
+public class HttpService {
+	
+	public void sendGet(String urlStr) throws Exception {
+		URL url = new URL(urlStr);
+        URLConnection connection = url.openConnection();
+        BufferedReader in = new BufferedReader(
+                                new InputStreamReader(
+                                		connection.getInputStream()));
+        String inputLine;
+
+        while ((inputLine = in.readLine()) != null) 
+            System.out.println(inputLine);
+        in.close();
+	}
+	
+	public void sendPost(String urlStr, String data) throws Exception {
+		String stringToReverse = URLEncoder.encode(data, "UTF-8");
+
+        URL url = new URL(urlStr);
+        URLConnection connection = url.openConnection();
+        connection.setDoOutput(true);
+
+        OutputStreamWriter out = new OutputStreamWriter(
+                                         connection.getOutputStream());
+        out.write("string=" + stringToReverse);
+        out.close();
+
+        BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        String decodedString;
+        while ((decodedString = in.readLine()) != null) {
+            System.out.println(decodedString);
+        }
+        
+        in.close();
+    }
+}

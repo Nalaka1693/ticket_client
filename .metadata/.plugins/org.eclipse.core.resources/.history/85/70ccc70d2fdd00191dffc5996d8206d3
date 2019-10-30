@@ -1,0 +1,41 @@
+package cache;
+
+import java.util.ArrayList;
+
+public class Cache {
+	private static Cache instance = null;
+	
+	private ArrayList<Seat> seatList;
+	private static int nextSeat = 0;
+	
+	
+	private Cache() {
+		this.seatList = new ArrayList<Seat>();
+		
+		for (int i = 0; i < 10; i++) {
+			seatList.add(new Seat(i, 'A'));
+			seatList.add(new Seat(i, 'B'));
+			seatList.add(new Seat(i, 'C'));
+			seatList.add(new Seat(i, 'D'));
+		}
+	}
+	
+	public static Cache getInstance() {
+		if (instance == null) {
+			instance = new Cache();
+		}
+		
+		return instance;
+	}
+	
+	public ArrayList<String> getSeats(int numOfSeats) {
+		ArrayList<String> allocatedSeats = new ArrayList<String>();
+		
+		for (int i = 0; i < numOfSeats; i++) {
+			allocatedSeats.add(seatList.get(nextSeat++).toString());
+		}
+		
+		return allocatedSeats;
+	}	
+}
+

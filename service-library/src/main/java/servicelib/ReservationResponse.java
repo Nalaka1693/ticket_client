@@ -1,0 +1,45 @@
+package servicelib;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+
+public class ReservationResponse extends AvailabilityResponse implements Serializable {
+	/**
+	 * class for the response of http body when setting reservation
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	private int reservationId;
+	private ArrayList<String> seatNumbers;
+	
+	public ReservationResponse(int reservationId, String originCity, String destinationCity, 
+			int numOfTickets, int totalPrice) {
+		
+		super(originCity, destinationCity, numOfTickets, totalPrice);		
+		this.reservationId = reservationId;
+	}
+	
+	public ReservationResponse() {
+		super();
+	}	
+
+	@Override
+	public String toString() {
+		return "ReservationResponse [availability=" + availability + ", originCity=" + originCity
+				+ ", destinationCity=" + destinationCity + ", numOfTickets=" + numOfTickets + ", totalPrice="
+				+ totalPrice + ", reservationId=" + reservationId + ", seatNumbers=" + seatNumbers +"]";
+	}
+
+	public int getReservationId() {
+		return reservationId;
+	}
+	
+	public ArrayList<String> getSeatNumbers() {
+		return seatNumbers;
+	}
+	
+	public void setSeatNumbers(ArrayList<String> seats) {
+		seatNumbers = seats;
+	}
+}
+

@@ -1,0 +1,36 @@
+package cache;
+
+import static org.junit.Assert.*;
+
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.mockito.Mockito;
+
+import servicelib.Request;
+
+public class TestCache extends Mockito {
+
+	@BeforeClass
+	public static void setUpBeforeClass() throws Exception {
+	}
+
+	@Before
+	public void setUp() throws Exception {
+	}
+
+	@Test
+	public void testGetSeats() {
+		Request request = mock(Request.class);
+		
+		when(request.getOriginCity()).thenReturn("A");
+        when(request.getDestinationCity()).thenReturn("D");
+        when(request.getNumOfTickets()).thenReturn(5);
+	}
+
+	@Test
+	public void testGetReservationId() {
+		fail("Not yet implemented");
+	}
+
+}

@@ -1,0 +1,57 @@
+package servicelib;
+
+import java.io.Serializable;
+
+public class AvailabilityResponse implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	private boolean availability;
+	private String originCity;
+	private String destinationCity;
+	private int numOfTickets;
+	private int totalPrice;
+	
+	public AvailabilityResponse(String originCity, String destinationCity, 
+			int numOfTickets, int totalPrice) {
+		this.availability = true;
+		this.originCity = originCity;
+		this.destinationCity = destinationCity;
+		this.numOfTickets = numOfTickets;
+		this.totalPrice = totalPrice;
+	}
+	
+	@Override
+	public String toString() {
+		return "AvailabilityResponse [availability=" + availability + ", originCity=" + originCity
+				+ ", destinationCity=" + destinationCity + ", numOfTickets=" + numOfTickets + ", totalPrice="
+				+ totalPrice + "]";
+	}
+
+	public AvailabilityResponse() {
+		this.availability = false;
+	}
+	
+	public boolean getAvailability() {
+		return availability;
+	}
+
+	public String getOriginCity() {
+		return originCity;
+	}
+
+	public String getDestinationCity() {
+		return destinationCity;
+	}
+
+	public int getNumOfTickets() {
+		return numOfTickets;
+	}
+
+	public int getTotalPrice() {
+		return totalPrice;
+	}	
+}
+

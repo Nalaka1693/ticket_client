@@ -1,0 +1,25 @@
+package cache;
+
+import static org.junit.Assert.*;
+
+import org.junit.Before;
+import org.junit.Test;
+
+public class TestCache {
+
+	@Before
+	public void setUp() throws Exception {
+	}
+
+	@Test
+	public void testGetAvailability() {
+		UnitJourney uj = new UnitJourney("A", "B");
+		UnitInventory ui = new UnitInventory(uj, null, true)
+	}
+
+	@Test
+	public void testSetReservation() {
+		fail("Not yet implemented");
+	}
+
+}

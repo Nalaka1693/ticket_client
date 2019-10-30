@@ -1,0 +1,11 @@
+package service;
+
+import cache.Cache;
+
+public class ReservationService {
+	private Cache cache;
+	
+	public ReservationService() {
+		this.cache = Cache.getInstance(); 
+	}
+}

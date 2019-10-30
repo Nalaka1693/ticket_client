@@ -1,0 +1,36 @@
+package client;
+
+import java.util.Scanner;
+
+import servicelib.HttpService;
+import servicelib.AvailabilityResponse;
+import servicelib.Request;
+import servicelib.ReservationResponse;
+
+public class TicketClient {
+	public static void main(String[] args) {
+		Request req = new Request("A", "B", 40);
+		HttpService httpService = new HttpService();
+
+		try {
+			System.out.println("xxxx");
+//			AvailabilityResponse avbRes = (AvailabilityResponse) httpService
+//					.sendGet("http://localhost:8080/availability-service/check", req);
+//			System.out.println("yyyy");
+//			System.out.println(avbRes.getTotalPrice());
+
+			System.out.println("xxxx");
+			ReservationResponse resvRes = (ReservationResponse) httpService
+					.sendPost("http://localhost:8080/reservation-service/reserve", req);
+			System.out.println("yyyy");
+			System.out.println(resvRes.getTotalPrice());
+
+//			Scanner scn = new Scanner(System.in);
+//			String userName = scn.nextLine();
+//		    System.out.println("Username is: " + userName);
+//		    scn.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+}

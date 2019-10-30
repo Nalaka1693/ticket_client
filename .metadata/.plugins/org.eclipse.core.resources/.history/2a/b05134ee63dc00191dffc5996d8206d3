@@ -1,0 +1,18 @@
+package cache;
+
+import java.util.Date;
+
+public class UnitInventory {
+	UnitJourney unitJourney;
+	Date day;
+	boolean direction;
+	
+	
+	UnitInventory(UnitJourney unitJourney, Date day, boolean direction) {
+		this.unitJourney = unitJourney;
+		this.day = day;
+		this.direction = direction;
+	}
+
+}
+

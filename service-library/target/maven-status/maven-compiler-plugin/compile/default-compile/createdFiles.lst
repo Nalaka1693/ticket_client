@@ -1,0 +1,5 @@
+servicelib\ParameterStringBuilder.class
+servicelib\AvailabilityResponse.class
+servicelib\ReservationResponse.class
+servicelib\Request.class
+servicelib\HttpService.class

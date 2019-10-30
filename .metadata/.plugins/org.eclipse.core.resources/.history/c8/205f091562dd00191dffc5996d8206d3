@@ -1,0 +1,74 @@
+package model;
+
+import java.util.ArrayList;
+
+import cache.UnitInventory;
+import cache.UnitJourney;
+import servicelib.Request;
+import util.Utils;
+
+public class RequestProcessor {
+	
+	public RequestProcessor() {}
+	
+	public ArrayList<UnitInventory> getUnitInventories(Request request) {
+		ArrayList<String> cityList = new ArrayList<String>();
+		ArrayList<UnitInventory> unitInvList = new ArrayList<UnitInventory>();
+		
+		String originCity = request.getOriginCity();
+		String destCity = request.getDestinationCity();
+		
+		boolean addToList = false;
+		
+		for (String city : Utils.cityOrder) {
+			if (city.equals(originCity)) {
+				addToList = true;
+			}			
+			if (addToList) {
+				cityList.add(city);
+			}			
+			if (city.equals(destCity)) {
+				addToList = false;
+			}
+		}
+		
+		if (!cityList.isEmpty()) {
+			for (int i = 0; i < cityList.size() - 1; i++) {
+				String firstCity = cityList.get(i);
+				String nextCity = cityList.get(i + 1);
+				
+				UnitJourney unitJourney = new UnitJourney(firstCity, nextCity);
+				unitInvList.add(new UnitInventory(unitJourney, null, true));
+			}
+			
+			return unitInvList;
+		}
+		
+		int size = Utils.cityOrder.length;
+		
+		for (int i = size - 1; i >= 0; i--) {
+			String city = Utils.cityOrder[i];
+			
+			if (city == originCity) {
+				addToList = true;
+			}			
+			if (addToList) {
+				cityList.add(city);
+			}			
+			if (city == destCity) {
+				addToList = false;
+			}
+		}
+		
+		for (int i = cityList.size(); i >= 1; i--) {
+			String firstCity = cityList.get(i);
+			String nextCity = cityList.get(i - 1);
+			
+			UnitJourney unitJourney = new UnitJourney(firstCity, nextCity);
+			unitInvList.add(new UnitInventory(unitJourney, null, false));
+		}
+		
+		return unitInvList;
+		
+	}
+}

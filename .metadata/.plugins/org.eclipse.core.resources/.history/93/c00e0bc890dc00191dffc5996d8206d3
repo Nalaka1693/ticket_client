@@ -1,0 +1,11 @@
+package service;
+
+public class AvailabilityService {
+	public AvailabilityService() {
+		
+	}
+	
+	public void processRequest(Request request) {
+		
+	}	
+}

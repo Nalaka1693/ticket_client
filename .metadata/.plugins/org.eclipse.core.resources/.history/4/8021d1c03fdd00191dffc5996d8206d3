@@ -1,0 +1,39 @@
+package service;
+
+import cache.Cache;
+import servicelib.AvailabilityResponse;
+import servicelib.Request;
+import servicelib.ReservationResponse;
+
+public class ReservationService {
+	private static int resvationId = 0;
+	private Cache cache;
+	
+	public ReservationService() {
+		this.cache = Cache.getInstance(); 
+	}
+	
+	public ReservationResponse procesRequest(Request request) {
+		HttpService httpService = new HttpService();
+		
+		try {
+			AvailabilityResponse res1 = httpService.sendGet("http://localhost:8080/availability-service/check", request);
+			
+			if (res1.getAvailability()) {
+				return createResponse(request, res1.getTotalPrice());
+			} else {
+				return (ReservationResponse) new AvailabilityResponse();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}		
+	}
+	
+	public ReservationResponse createResponse(Request request, int totalPrice) {		
+		ReservationResponse resp = new ReservationResponse(resvationId++, request.getOriginCity(),
+				request.getDestinationCity(), request.getNumOfTickets(), totalPrice);
+		resp.setSeatNumbers(cache.getSeats(request.getNumOfTickets()));
+		
+		return resp;
+	}	
+}

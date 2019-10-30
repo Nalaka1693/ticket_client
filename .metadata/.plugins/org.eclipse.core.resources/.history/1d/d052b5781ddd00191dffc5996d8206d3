@@ -1,0 +1,49 @@
+package service;
+
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
+
+import com.google.gson.Gson;
+
+import servicelib.AvailabilityResponse;
+import servicelib.Request;
+
+public class HttpService {
+	
+	public AvailabilityResponse sendGet(String getUrl) throws Exception {
+		Gson gson = new Gson();
+		HttpClient httpClient = HttpClientBuilder.create().build();
+		
+		HttpGet get = new HttpGet(getUrl);
+		HttpResponse response = httpClient.execute(get);
+		HttpEntity entity = response.getEntity();
+		
+		AvailabilityResponse res = gson.fromJson(EntityUtils.toString(entity, "UTF-8"), AvailabilityResponse.class);		
+		
+		return res;
+	}
+	
+	public AvailabilityResponse sendPost(String postUrl, Request req) throws Exception {
+		Gson gson = new Gson();
+		HttpClient httpClient = HttpClientBuilder.create().build();
+		
+		HttpPost post = new HttpPost(postUrl);
+		StringEntity postingString = new StringEntity(gson.toJson(req).toString(), "UTF-8");
+		post.setEntity(postingString);
+		post.setHeader("Content-type", "application/json");
+		
+		HttpResponse response = httpClient.execute(post);
+		HttpEntity entity = response.getEntity();
+
+		AvailabilityResponse res = gson.fromJson(EntityUtils.toString(entity, "UTF-8"), AvailabilityResponse.class);		
+				
+		return res;
+    }
+}

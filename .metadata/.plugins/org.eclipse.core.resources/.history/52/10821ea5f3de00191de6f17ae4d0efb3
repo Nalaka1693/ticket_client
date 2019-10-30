@@ -1,0 +1,39 @@
+package controller;
+
+import static org.junit.Assert.*;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.junit.Test;
+import org.mockito.Mockito;
+
+public class TestAvailabilityService extends Mockito {
+
+	@Test
+	public void testServlet() throws IOException, ServletException {
+		HttpServletRequest request = mock(HttpServletRequest.class);       
+        HttpServletResponse response = mock(HttpServletResponse.class);    
+
+        when(request.getParameter("originCity")).thenReturn("A");
+        when(request.getParameter("destinationCity")).thenReturn("B");
+        when(request.getParameter("numOfTickets")).thenReturn("1");
+
+        StringWriter stringWriter = new StringWriter();
+        PrintWriter writer = new PrintWriter(stringWriter);
+        when(response.getWriter()).thenReturn(writer);
+
+        new AvailabilityServlet().doGet(request, response);
+
+        verify(request, atLeast(1)).getParameter("originCity");
+        writer.flush();
+        System.out.println(stringWriter.toString());
+//        assertTrue(stringWriter.toString().contains("My expected string"));
+	}
+
+}

@@ -1,0 +1,48 @@
+package cache;
+
+import java.util.Date;
+
+public class UnitInventory {
+	UnitJourney unitJourney;
+	Date day;
+	
+	
+	UnitInventory(UnitJourney unitJourney, Date day) {
+		this.unitJourney = unitJourney;
+		this.day = day;
+	}
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((day == null) ? 0 : day.hashCode());
+		result = prime * result + ((unitJourney == null) ? 0 : unitJourney.hashCode());
+		return result;
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		UnitInventory other = (UnitInventory) obj;
+		if (day == null) {
+			if (other.day != null)
+				return false;
+		} else if (!day.equals(other.day))
+			return false;
+		if (unitJourney == null) {
+			if (other.unitJourney != null)
+				return false;
+		} else if (!unitJourney.equals(other.unitJourney))
+			return false;
+		return true;
+	}
+}
+

@@ -1,0 +1,63 @@
+package cache;
+
+import java.util.HashMap;
+
+public class Cache {
+	private static Cache instance = null;
+	
+	private HashMap<UnitInventory, Integer> unitInvSeatNumMap;
+	private HashMap<UnitJourney, Integer> unitJourneyPriceMap;
+	private HashMap<Seat, Boolean> seatAvailabilityMap;
+	
+	
+	private Cache() {
+		this.unitInvSeatNumMap = new HashMap<UnitInventory, Integer>();
+		this.unitJourneyPriceMap =  new HashMap<UnitJourney, Integer>();
+	}
+	
+	public static Cache getInstance() {
+		if (instance == null) {
+			instance = new Cache();
+		}
+		
+		return instance;
+	}
+	
+	public void populatePriceMap(String csvFileName) {
+		UnitJourney j1 = new UnitJourney("A", "B");
+		UnitJourney j2 = new UnitJourney("B", "C");
+		UnitJourney j3 = new UnitJourney("C", "D");
+		
+		unitJourneyPriceMap.put(j1, 50);
+		unitJourneyPriceMap.put(j2, 50);
+		unitJourneyPriceMap.put(j3, 50);
+	}
+	
+	public void populateInventory() {		
+		for (UnitJourney j : unitJourneyPriceMap.keySet()) {
+			
+			UnitInventory key1 = new UnitInventory(j, null, true);
+			UnitInventory key2 = new UnitInventory(j, null, false);
+			unitInvSeatNumMap.put(key1, 40);
+			unitInvSeatNumMap.put(key2, 40);
+		}
+	}
+	
+	public int getAvailability(UnitInventory key, int numOfSeats) {
+		if (unitInvSeatNumMap.get(key) >= numOfSeats) {
+			return unitJourneyPriceMap.get(key.getUnitJourney());
+		} else {
+			return 0;
+		}
+	}
+	
+	public int setReservation(UnitInventory key, int numOfSeats) {
+		if (unitInvSeatNumMap.get(key) >= numOfSeats) {
+			unitInvSeatNumMap.put(key, unitInvSeatNumMap.get(key) - numOfSeats);
+			return return unitJourneyPriceMap.get(key.getUnitJourney());;
+		} else {
+			return 0;
+		}
+	}
+}
+

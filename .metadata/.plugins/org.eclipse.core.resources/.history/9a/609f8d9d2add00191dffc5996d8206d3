@@ -1,0 +1,23 @@
+package cache;
+
+import java.util.HashMap;
+
+public class Cache {
+	private static Cache instance = null;
+	
+	private HashMap<Seat, Boolean> seatAvailabilityMap;
+	
+	
+	private Cache() {
+		this.seatAvailabilityMap = new HashMap<Seat, Boolean>();
+	}
+	
+	public static Cache getInstance() {
+		if (instance == null) {
+			instance = new Cache();
+		}
+		
+		return instance;
+	}
+}
+

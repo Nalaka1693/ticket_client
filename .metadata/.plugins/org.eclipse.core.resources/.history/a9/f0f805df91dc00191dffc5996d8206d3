@@ -1,0 +1,15 @@
+package service;
+
+import cache.Cache;
+
+public class AvailabilityService {
+	private Cache cache;
+	
+	public AvailabilityService() {
+		this.cache = new Cache();		
+	}
+	
+	public void processRequest(Request request) {
+		request.
+	}	
+}

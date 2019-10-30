@@ -1,0 +1,105 @@
+package servicelib;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+
+import com.google.gson.Gson;
+
+public class HttpService {
+	/**
+	 * sending get req to specified url with object fields added 
+	 * as parameters
+	 * @param getUrl
+	 * @param req
+	 * @return
+	 * @throws Exception
+	 */
+	public static Object sendGet(String getUrl, Request req) throws Exception {		
+		Map<String, String> parameters = new HashMap<String, String>();
+		parameters.put("originCity", req.getOriginCity());
+		parameters.put("destinationCity", req.getDestinationCity());
+		parameters.put("numOfTickets", String.valueOf(req.getNumOfTickets()));
+		
+		getUrl += "?" + ParameterStringBuilder.getParamsString(parameters);
+		URL obj = new URL(getUrl);
+		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+		con.setRequestMethod("GET");
+		con.setRequestProperty("User-Agent", "Mozilla/5.0");
+
+		// int responseCode = con.getResponseCode();
+		// System.out.println("\nSending 'GET' request to URL : " + getUrl);
+		// System.out.println("Response Code : " + responseCode);
+
+		BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+		String inputLine;
+		StringBuffer response = new StringBuffer();
+
+		while ((inputLine = in.readLine()) != null) {
+			response.append(inputLine);
+		}
+		
+		in.close();
+		
+		Gson gson = new Gson();	
+		AvailabilityResponse res = gson.fromJson(response.toString(), AvailabilityResponse.class);
+		
+		if (res == null) {
+			return new AvailabilityResponse();
+		}
+		
+		return res;		
+	}
+	
+	/**
+	 * sending post req to specified url with object added 
+	 * as http body
+	 * @param postUrl
+	 * @param req
+	 * @return
+	 * @throws Exception
+	 */
+	public static Object sendPost(String postUrl, Request req) throws Exception {
+		Gson gson = new Gson();
+		URL url = new URL(postUrl);
+		HttpURLConnection con = (HttpURLConnection) url.openConnection();
+		con.setRequestMethod("POST");
+		con.setRequestProperty("Content-Type", "application/json; utf-8");
+		con.setRequestProperty("Accept", "application/json");
+		con.setDoOutput(true);
+		
+		String json = gson.toJson(req);
+		try {
+			OutputStream os = con.getOutputStream();
+		    byte[] input = json.getBytes("utf-8");
+		    os.write(input, 0, input.length);           
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		StringBuilder response = new StringBuilder();
+		
+		try {
+			BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), "utf-8"));		    
+		    String responseLine = null;
+		    while ((responseLine = br.readLine()) != null) {
+		        response.append(responseLine.trim());
+		    }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		ReservationResponse res = gson.fromJson(response.toString(), ReservationResponse.class);
+		
+		if (res == null) {
+			return new ReservationResponse();
+		}
+		
+		return res;
+    }
+}

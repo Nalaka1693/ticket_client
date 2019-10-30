@@ -1,0 +1,41 @@
+package cache;
+
+import java.util.HashMap;
+
+public class Cache {
+	HashMap<UnitInventory, Integer> unitInvSeatNumMap;
+	HashMap<UnitJourney, Integer> unitJourneyPriceMap;
+	HashMap<Seat, Boolean>seatAvailabilityMap;
+	
+	
+	Cache() {
+		this.unitInvSeatNumMap = new HashMap<UnitInventory, Integer>();
+		this.unitJourneyPriceMap =  new HashMap<UnitJourney, Integer>();
+	}
+	
+	public void populatePriceMap(String csvFileName) {
+		UnitJourney j1 = new UnitJourney("A", "B");
+		UnitJourney j2 = new UnitJourney("B", "C");
+		UnitJourney j3 = new UnitJourney("C", "D");
+		UnitJourney j4 = new UnitJourney("B", "A");
+		UnitJourney j5 = new UnitJourney("C", "B");
+		UnitJourney j6 = new UnitJourney("D", "C");		
+		
+		unitJourneyPriceMap.put(j1, 50);
+		unitJourneyPriceMap.put(j2, 50);
+		unitJourneyPriceMap.put(j3, 50);
+		unitJourneyPriceMap.put(j4, 50);
+		unitJourneyPriceMap.put(j5, 50);
+		unitJourneyPriceMap.put(j6, 50);
+	}
+	
+	public void populateInventory() {		
+		for (UnitJourney j : unitJourneyPriceMap.keySet()) {
+			
+		}
+	}
+	
+	
+
+}
+

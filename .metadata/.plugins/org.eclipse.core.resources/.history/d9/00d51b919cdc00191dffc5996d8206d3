@@ -1,0 +1,21 @@
+package service;
+
+import cache.Cache;
+
+public class AvailabilityService {
+	private Cache cache;
+	
+	public AvailabilityService() {
+		this.cache = Cache.getInstance();		
+	}
+	
+	public void processRequest(Request request) {
+		request.getOriginCity();
+		request.getDestinationCity();
+		request.getNumOfTickets();
+	}
+	
+	public AvailabilityResponse processResponce() {
+		return null;
+	}
+}

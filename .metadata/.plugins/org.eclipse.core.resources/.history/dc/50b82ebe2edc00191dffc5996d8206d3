@@ -1,0 +1,9 @@
+package cache;
+
+public class Hello {
+	public static String pp() {
+		System.out.println("Hello");
+		return "Hello"
+	}
+
+}

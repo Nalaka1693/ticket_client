@@ -1,0 +1,93 @@
+package controller;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.stream.Collectors;
+
+import javax.servlet.Servlet;
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.google.gson.Gson;
+
+import service.AvailabilityService;
+import servicelib.AvailabilityResponse;
+import servicelib.Request;
+
+
+/**
+ * Servlet implementation class AvailabilityServlet
+ */
+@WebServlet("/check")
+public class AvailabilityServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	
+	private AvailabilityService availabilityService;
+
+    /**
+     * Default constructor. 
+     */
+    public AvailabilityServlet() {
+    	availabilityService = new AvailabilityService();
+    }
+
+	/**
+	 * @see Servlet#init(ServletConfig)
+	 */
+	public void init(ServletConfig config) throws ServletException {
+		
+	}
+
+	/**
+	 * @see Servlet#destroy()
+	 */
+	public void destroy() {
+		// TODO Auto-generated method stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
+		System.out.println("post");
+		Gson gson = new Gson();
+		BufferedReader reader = request.getReader();
+		System.out.println(reader.lines().collect(Collectors.joining()));
+		Request reqObj = gson.fromJson(reader.lines().collect(Collectors.joining()), Request.class);
+		System.out.println(reqObj);
+		
+//		if (reqObj == null) {
+//			reqObj = new Request("A", "B", 5);
+//		}
+		
+		int totalPrice = this.availabilityService.processRequest(reqObj);
+		AvailabilityResponse availabilityResponse = this.availabilityService.createResponse(reqObj, totalPrice);
+		
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+//		StringEntity responseJson = new StringEntity(gson.toJson(availabilityResponse));
+		String responseJson = gson.toJson(availabilityResponse);
+		
+		PrintWriter out = response.getWriter();
+		out.write(responseJson);
+//		out.flush();		
+//		out.close();
+		System.out.println("post");
+	}
+
+}

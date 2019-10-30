@@ -1,0 +1,86 @@
+package controller;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.stream.Collectors;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.google.gson.Gson;
+
+import service.HttpService;
+import service.ReservationService;
+import servicelib.AvailabilityResponse;
+import servicelib.Request;
+import servicelib.ReservationResponse;
+
+/**
+ * Servlet implementation class ReservationServlet
+ */
+@WebServlet("/reserve")
+public class ReservationServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	
+	private ReservationService reservationService;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public ReservationServlet() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
+		
+		Gson gson = new Gson();
+		
+		BufferedReader reader = request.getReader();
+		System.out.println(reader.lines().collect(Collectors.joining()));
+		Request reqObj = gson.fromJson(reader.lines().collect(Collectors.joining()), Request.class);
+		
+		HttpService httpService = new HttpService();		
+		
+		try {
+			AvailabilityResponse res1 = httpService.sendGet("http://localhost:8080/availability-service/check", reqObj);
+			
+			if (res1.getAvailability()) {
+				ReservationResponse resvResp = this.reservationService.createResponse(reqObj, res1.getTotalPrice());
+				
+				response.setContentType("application/json");
+				response.setCharacterEncoding("UTF-8");
+				String responseJson = gson.toJson(resvResp);
+				
+				PrintWriter out = response.getWriter();
+				out.write(responseJson);
+			} else {
+				ReservationResponse resvResp = (ReservationResponse) new AvailabilityResponse();
+				response.setContentType("application/json");
+				response.setCharacterEncoding("UTF-8");
+				String responseJson = gson.toJson(resvResp);
+				
+				PrintWriter out = response.getWriter();
+				out.write(responseJson);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}		
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
+		// TODO Auto-generated method stub
+	}
+}

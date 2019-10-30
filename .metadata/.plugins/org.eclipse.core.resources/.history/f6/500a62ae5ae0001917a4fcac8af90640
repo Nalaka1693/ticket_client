@@ -1,0 +1,17 @@
+package util;
+
+import java.util.logging.Logger;
+
+public class ServiceLogger {
+	private final static Logger LOGGER = Logger.getLogger("availability-service");
+	private static ServiceLogger logger = null;
+	
+	public static ServiceLogger getLogger() { 
+	    if(logger == null){
+	       logger = new ServiceLogger();
+	    }
+	    
+	    return logger;
+	}
+	
+}

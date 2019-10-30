@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<typeInfoHistroy>
+    <typeInfo handle="=availability-service/src\/main\/java&lt;controller{AvailabilityServlet.java[AvailabilityServlet" modifiers="1" timestamp="1569440628540"/>
+    <typeInfo handle="=availability-service/src\/main\/java&lt;cache{Cache.java[Cache" modifiers="1" timestamp="1569344973393"/>
+    <typeInfo handle="=availability-service/src\/main\/java&lt;service{AvailabilityService.java[AvailabilityService" modifiers="1" timestamp="1569464845572"/>
+    <typeInfo handle="=reservation-service/src\/main\/java&lt;service{ReservationService.java[ReservationService" modifiers="1" timestamp="1569464958160"/>
+    <typeInfo handle="=reservation-service/src\/main\/java&lt;controller{ReservationServlet.java[ReservationServlet" modifiers="1" timestamp="1569438294396"/>
+    <typeInfo handle="=reservation-service/src\/main\/java&lt;cache{Cache.java[Cache" modifiers="1" timestamp="1569465156786"/>
+</typeInfoHistroy>

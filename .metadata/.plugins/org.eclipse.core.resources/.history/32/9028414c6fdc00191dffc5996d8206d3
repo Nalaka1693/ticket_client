@@ -1,0 +1,13 @@
+package service;
+
+public class Request {
+	String originCity;
+	String destinationCity;
+	int numOfTickets;
+	
+	public Request(String originCity, String destinationCity, int numOfTickets) {
+		this.originCity = originCity;
+		this.destinationCity = destinationCity;
+		this.numOfTickets = numOfTickets;
+	}
+}

@@ -1,0 +1,16 @@
+package service;
+
+public class ReservationResponse extends AvailabilityResponse {
+	private int reservationId;
+	
+	public ReservationResponse(int reservationId, String originCity, String destinationCity, 
+			int numOfTickets, int totalPrice) {
+		
+		super(originCity, destinationCity, numOfTickets, totalPrice);		
+		this.reservationId = reservationId;
+	}
+
+	public int getReservationId() {
+		return reservationId;
+	}
+}

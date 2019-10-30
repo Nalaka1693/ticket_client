@@ -1,0 +1,32 @@
+package service;
+
+import java.io.Serializable;
+
+public class Request implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	private String originCity;
+	private String destinationCity;
+	private int numOfTickets;
+	
+	public Request(String originCity, String destinationCity, int numOfTickets) {
+		this.originCity = originCity;
+		this.destinationCity = destinationCity;
+		this.numOfTickets = numOfTickets;
+	}
+
+	public String getOriginCity() {
+		return originCity;
+	}
+
+	public String getDestinationCity() {
+		return destinationCity;
+	}
+
+	public int getNumOfTickets() {
+		return numOfTickets;
+	}
+}

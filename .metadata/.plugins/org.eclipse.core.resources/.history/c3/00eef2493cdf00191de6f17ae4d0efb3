@@ -1,0 +1,36 @@
+package cache;
+
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
+import java.util.HashMap;
+
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.mockito.Mockito;
+
+public class TestCache extends Mockito {
+	static Cache cache;
+
+	@BeforeClass
+	public static void setUpBeforClass() throws Exception {
+		cache = Cache.getInstance();
+		cache.populatePriceMap("");
+		cache.populateInventory();
+	}
+
+	@Test
+	public void testGetAvailability() {
+		UnitJourney uj1 = new UnitJourney("A", "B");
+		UnitInventory ui1 = new UnitInventory(uj1, null, true);
+		
+		assertEquals(cache.getAvailability(ui1, 4), 200);		
+	}
+
+	@Test
+	public void testSetReservation() {
+		
+	}
+
+}

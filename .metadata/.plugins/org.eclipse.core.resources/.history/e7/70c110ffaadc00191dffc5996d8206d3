@@ -1,0 +1,5 @@
+package servicelib;
+
+public class ReservationResponse {
+
+}

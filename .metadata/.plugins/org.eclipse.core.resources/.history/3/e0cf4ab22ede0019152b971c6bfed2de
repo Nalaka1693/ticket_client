@@ -1,0 +1,53 @@
+package cache;
+
+import java.util.ArrayList;
+
+import model.RequestProcessor;
+import servicelib.Request;
+
+public class Cache {
+	private static Cache instance = null;
+	
+	private static int reservationId = 0;
+	private static int nextSeat = 0;
+
+	private ArrayList<Seat> seatList;
+	private RequestProcessor reqProcessor;
+	
+	
+	private Cache() {
+		this.seatList = new ArrayList<Seat>();
+		this.reqProcessor = new RequestProcessor();
+		
+		for (int i = 1; i <= 10; i++) {
+			seatList.add(new Seat(i, 'A'));
+			seatList.add(new Seat(i, 'B'));
+			seatList.add(new Seat(i, 'C'));
+			seatList.add(new Seat(i, 'D'));
+		}
+	}
+	
+	public static Cache getInstance() {
+		if (instance == null) {
+			instance = new Cache();
+		}
+		
+		return instance;
+	}
+	
+	public ArrayList<String> getSeats(Request request) {
+		ArrayList<String> allocatedSeats = new ArrayList<String>();
+		
+		
+		for (int i = 0; i < numOfSeats; i++) {
+			allocatedSeats.add(seatList.get(nextSeat++).toString());
+		}
+		
+		return allocatedSeats;
+	}
+	
+	public int getReservationId() {
+		return reservationId++;
+	}
+}
+

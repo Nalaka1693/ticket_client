@@ -1,0 +1,115 @@
+package service;
+
+import java.util.ArrayList;
+
+import javax.servlet.http.HttpServletRequest;
+
+import cache.Cache;
+import cache.UnitInventory;
+import model.RequestProcessor;
+import servicelib.AvailabilityResponse;
+import servicelib.Request;
+import util.ServiceLogger;
+
+public class AvailabilityService {
+	private Cache cache;
+	private RequestProcessor reqProcessor;
+	
+	public AvailabilityService() {
+		this.cache = Cache.getInstance();
+		this.cache.populatePriceMap("");
+		this.cache.populateInventory();
+		this.reqProcessor = new RequestProcessor();
+	}
+	
+	public boolean validateRequest(Request request) {
+		// TODO check the validity of the request 
+		return true;
+	}		
+
+	/**
+	 * create request object to use in later stages
+	 * from the get request params
+	 * @param request
+	 * @return
+	 */
+	public Request buildRequestObj(HttpServletRequest request) {
+		Request reqObj = new Request();		
+		
+		reqObj.setOriginCity(request.getParameter("originCity"));
+		reqObj.setDestinationCity(request.getParameter("destinationCity"));
+		reqObj.setNumOfTickets(Integer.valueOf(request.getParameter("numOfTickets")));
+		
+		return reqObj;
+	}
+
+	/**
+	 * process availabiliy checking requests by breaking it in to
+	 * smaller units 
+	 * @param request
+	 * @return
+	 */
+	public int processAvailabilityRequest(Request request) {
+		if (!validateRequest(request)) {
+			// TODO send bad request response
+		}
+		ServiceLogger.LOGGER.info()
+		
+		int totalPrice = 0;
+		ArrayList<UnitInventory> unitInvs = this.reqProcessor.getUnitInventories(request);
+
+		for (UnitInventory key : unitInvs) {
+			int price = cache.getAvailability(key, request.getNumOfTickets());
+			if (price == 0) {
+				return 0;
+			}
+
+			totalPrice += price;
+		}
+
+		return totalPrice * request.getNumOfTickets();
+	}
+
+	/**
+	 * process reservation checking requests
+	 * @param request
+	 * @return
+	 */
+	synchronized public int processReservationRequest(Request request) {
+		/**
+		 * syncronized added until the temporary seat hold is implemented
+		 * in availability checking. can allow many concurrent reads here
+		 * if the temporary holding is implemented using read write lock
+		 * in the database
+		 */
+		
+		int totalPrice = 0;
+		ArrayList<UnitInventory> unitInvs = this.reqProcessor.getUnitInventories(request);
+
+		for (UnitInventory key : unitInvs) {
+			int price = cache.setReservation(key, request.getNumOfTickets());
+			if (price == 0) {
+				return 0;
+			}
+
+			totalPrice += price;
+		}
+
+		return totalPrice * request.getNumOfTickets();
+	}
+
+	/**
+	 * create response from recieved cache data 
+	 * @param request
+	 * @param totalPrice
+	 * @return
+	 */
+	public AvailabilityResponse createResponse(Request request, int totalPrice) {
+		if (totalPrice > 0) {
+			return new AvailabilityResponse(request.getOriginCity(), request.getDestinationCity(),
+					request.getNumOfTickets(), totalPrice);
+		} else {
+			return new AvailabilityResponse();
+		}
+	}
+}

@@ -1,0 +1,19 @@
+package util;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+public class ServiceLogger {
+	public final static Logger LOGGER = Logger.getLogger("reservation-service");
+	private static ServiceLogger logger = null;
+	
+	public static ServiceLogger getLogger() { 
+	    if(logger == null){
+	    	LOGGER.setLevel(Level.INFO);
+	    	logger = new ServiceLogger();
+	    }
+	    
+	    return logger;
+	}
+	
+}

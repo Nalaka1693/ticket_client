@@ -1,0 +1,50 @@
+package cache;
+
+public class UnitJourney {
+	String originCity;
+	String nextCity;
+	
+	UnitJourney(String origCity, String nextCity) {
+		this.originCity = origCity;
+		this.nextCity = nextCity;
+	}
+
+	public String getOriginCity() {
+		return originCity;
+	}
+
+	public String getNextCity() {
+		return nextCity;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((nextCity == null) ? 0 : nextCity.hashCode());
+		result = prime * result + ((originCity == null) ? 0 : originCity.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		UnitJourney other = (UnitJourney) obj;
+		if (nextCity == null) {
+			if (other.nextCity != null)
+				return false;
+		} else if (!nextCity.equals(other.nextCity))
+			return false;
+		if (originCity == null) {
+			if (other.originCity != null)
+				return false;
+		} else if (!originCity.equals(other.originCity))
+			return false;
+		return true;
+	}
+}

@@ -1,0 +1,19 @@
+package service;
+
+public class AvailabilityResponse {
+	int reservationId;
+	String originCity;
+	String destinationCity;
+	int numOfTickets;
+	int totalPrice;
+	
+	public AvailabilityResponse(int reservationId, String originCity, String destinationCity, 
+			int numOfTickets, int totalPrice) {
+		this.reservationId = reservationId;
+		this.originCity = originCity;
+		this.destinationCity = destinationCity;
+		this.numOfTickets = numOfTickets;
+		this.totalPrice = totalPrice;
+	}
+
+}

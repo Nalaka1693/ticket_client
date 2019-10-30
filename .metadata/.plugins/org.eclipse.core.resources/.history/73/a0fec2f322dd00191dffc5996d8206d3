@@ -1,0 +1,24 @@
+package servicelib;
+
+import java.io.Serializable;
+
+public class ReservationResponse extends AvailabilityResponse implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	private int reservationId;
+	
+	public ReservationResponse(int reservationId, String originCity, String destinationCity, 
+			int numOfTickets, int totalPrice) {
+		
+		super(originCity, destinationCity, numOfTickets, totalPrice);		
+		this.reservationId = reservationId;
+	}
+
+	public int getReservationId() {
+		return reservationId;
+	}
+}
+
